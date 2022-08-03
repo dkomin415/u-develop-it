@@ -65,27 +65,6 @@ app.get('/api/candidate/:id', (req, res) => {
   });
 });
 
-// Delete a candidate
-app.delete('/api/candidate/:id', (req, res) => {
-  const sql = `DELETE FROM candidates WHERE id = ?`;
-  const params = [req.params.id];
-
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.statusMessage(400).json({ error: res.message });
-    } else if (!result.affectedRows) {
-      res.json({
-        message: 'Candidate not found'
-      });
-    } else {
-      res.json({
-        message: 'deleted',
-        changes: result.affectedRows,
-        id: req.params.id
-      });
-    }
-  });
-});
 
 // Create a candidate
 app.post('/api/candidate', ({ body }, res) => {
@@ -141,6 +120,29 @@ app.put('/api/candidate/:id', (req, res) => {
   });
 });
 
+// Delete a candidate
+app.delete('/api/candidate/:id', (req, res) => {
+  const sql = `DELETE FROM candidates WHERE id = ?`;
+  const params = [req.params.id];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.statusMessage(400).json({ error: res.message });
+    } else if (!result.affectedRows) {
+      res.json({
+        message: 'Candidate not found'
+      });
+    } else {
+      res.json({
+        message: 'deleted',
+        changes: result.affectedRows,
+        id: req.params.id
+      });
+    }
+  });
+});
+
+// GET all parties
 app.get('/api/parties', (req, res) => {
   const sql = `SELECT * FROM parties`;
   db.query(sql, (err, rows) => {
@@ -155,6 +157,7 @@ app.get('/api/parties', (req, res) => {
   });
 });
 
+// GET single party
 app.get('/api/party/:id', (req, res) => {
   const sql = `SELECT * FROM parties WHERE id = ?`;
   const params = [req.params.id];
@@ -170,6 +173,7 @@ app.get('/api/party/:id', (req, res) => {
   });
 });
 
+// DELETE party
 app.delete('/api/party/:id', (req, res) => {
   const sql = `DELETE FROM parties WHERE id = ?`;
   const params = [req.params.id];
